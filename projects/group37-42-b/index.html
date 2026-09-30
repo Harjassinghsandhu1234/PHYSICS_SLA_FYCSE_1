@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhanur Yantra Project</title>
+    <style>
+        body { background: #111; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        header, section, footer { 
+            max-width: 600px; margin: 20px auto; padding: 20px; background: #222; border-radius: 8px; border: 1px solid #00ff88;
+            transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28), box-shadow 0.5s ease; /* No Keyframes Anti-Gravity */
+        }
+        header:hover, section:hover, footer:hover { transform: translate3d(0, -15px, 0); box-shadow: 0 15px 30px rgba(0, 255, 136, 0.3); }
+        nav a { color: #00ff88; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #444; padding: 8px; text-align: left; }
+        th { background: #00ff88; color: #000; }
+        input, textarea { width: 100%; box-sizing: border-box; margin: 5px 0; padding: 5px; }
+        button { background: #00ff88; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dhanur Yantra</h1><p>An Automated Bow & Arrow System Project</p>
+        <nav><a href="#about">About</a><a href="#parts">Specs</a><a href="#working">Working</a><a href="#contact">Contact</a></nav>
+    </header>
+    <main>
+        <section id="about">
+            <h2>About The Project</h2>
+            <p><strong>Dhanur Yantra</strong> is a simple robotic project that aims and shoots a small bow automatically using motors and basic electronic controls.</p>
+            <h3>Main Features</h3>
+            <ul style="text-align:left;"><li>Automatic aim control (Up/Down and Left/Right).</li><li>Electronic trigger button for firing.</li><li>Simple battery-powered system.</li></ul>
+        </section>
+        <section id="parts">
+            <h2>Parts List</h2>
+            <table>
+                <tr><th>Part Name</th><th>Simple Description</th></tr>
+                <tr><td>Arduino Board</td><td>The mini-computer that controls everything</td></tr>
+                <tr><td>Servo Motors</td><td>Motors used to turn and aim the bow</td></tr>
+                <tr><td>Push Button / Relay</td><td>Used to release the string and shoot</td></tr>
+                <tr><td>Battery Pack</td><td>Provides power to the project</td></tr>
+            </table>
+        </section>
+        <section id="specs">
+            <h2>Technical Specifications</h2>
+            <table>
+                <tr><th>Component / Parameter</th><th>Specification</th></tr>
+                <tr><td>Microcontroller</td><td>Arduino Uno R3 (ATmega328P)</td></tr>
+                <tr><td>Actuators</td><td>2x SG90 / MG996R Servo Motors (Pan/Tilt)</td></tr>
+                <tr><td>Operating Voltage</td><td>5V to 6V DC</td></tr>
+                <tr><td>Trigger Mechanism</td><td>5V Single-Channel Relay / Solenoid Actuator</td></tr>
+            </table>
+        </section>
+        <section id="working">
+            <h2>How It Works</h2>
+            <ol style="text-align:left;"><li>Turn on the power switch.</li><li>Motors move the bow to point at the target.</li><li>The string is pulled back and held in place.</li><li>Press the trigger button to release the bowstring.</li></ol>
+        </section>
+        <section id="contact">
+            <h2>Contact Form</h2>
+            <form action="#" method="post">
+                <label for="name">Your Name:</label><input type="text" id="name" name="name" required><br>
+                <label for="email">Your Email:</label><input type="email" id="email" name="email" required><br>
+                <label for="message">Message:</label><textarea id="message" name="message" rows="4" required></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+    <footer><p>&copy; 2026 Dhanur Yantra Student Project</p></footer>
+</body>
+</html>

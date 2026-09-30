@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLA (Self Learning Assessment)</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --accent: #f59e0b;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --blue: #38bdf8;
+            --green: #10b981;
+            --purple: #a855f7;
+        }
+
+        * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header { text-align: center; margin-bottom: 20px; }
+
+        .tag {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--blue);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        h1 { color: var(--accent); margin: 10px 0 5px 0; }
+        p.sub { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        h2 { margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+
+        .sim-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .sim-grid { grid-template-columns: 3fr 2fr; }
+        }
+
+        canvas {
+            background: #090d16;
+            border-radius: 8px;
+            width: 100%;
+            height: 320px;
+            border: 1px solid #334155;
+        }
+
+        .controls {
+            display: grid;
+            gap: 12px;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .row { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--muted); }
+        
+        input[type=range], select {
+            width: 100%;
+            margin-top: 4px;
+            accent-color: var(--accent);
+        }
+
+        select {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid #334155;
+            padding: 6px;
+            border-radius: 4px;
+        }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 10px; }
+
+        button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            background: var(--accent);
+            color: #000;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-title { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
+        .stat-value { font-size: 1rem; font-weight: bold; color: var(--blue); margin-top: 4px; }
+
+        .formula-box {
+            background: rgba(0,0,0,0.3);
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed var(--accent);
+        }
+
+        /* Bow Comparison Table Styling */
+        .bow-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .bow-card {
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .bow-card h3 {
+            margin: 0 0 8px 0;
+            font-size: 1rem;
+            color: var(--blue);
+        }
+
+        .bow-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .badge-pe { background: rgba(245, 158, 11, 0.2); color: var(--accent); border: 1px solid var(--accent); }
+        .badge-speed { background: rgba(168, 85, 247, 0.2); color: var(--purple); border: 1px solid var(--purple); }
+        .badge-trad { background: rgba(16, 185, 129, 0.2); color: var(--green); border: 1px solid var(--green); }
+
+        .bow-card p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .learned-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .learned-item {
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--green);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: var(--text);
+        }
+
+        .learned-item b {
+            color: var(--blue);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="tag">SLA (Self Learning Assessment)</span>
+        <h1>Dhanur Yantra Mechanics</h1>
+        <p class="sub">An easy guide to understanding how mechanical bows work (Anti-Gravity Mode)</p>
+    </header>
+
+    <div class="container">
+
+        <!-- CONCEPT -->
+        <div class="card">
+            <h2>📜 What is a Dhanur Yantra?</h2>
+            <p style="color: var(--muted); line-height: 1.5; margin: 0;">
+                A <b>Dhanur Yantra</b> is an ancient mechanical bow (similar to a crossbow). Instead of holding the string with your hands, a latch holds it. This allows archers to pull back much heavier bows and release them smoothly with a trigger!
+            </p>
+        </div>
+
+        <!-- FORMULA -->
+        <div class="card">
+            <h2>⚛️ The Main Physics Formula</h2>
+            <div class="formula-box">
+                <div style="font-size: 0.8rem; color: var(--muted);">STORED ENERGY FORMULA</div>
+                <div style="font-size: 1.4rem; font-weight: bold; color: var(--accent); margin: 6px 0;">Energy = ½ × Stiffness × (Pull Distance)²</div>
+                <div id="formulaCalc" style="font-size: 0.95rem; color: var(--blue); margin-top: 8px; font-weight: bold;">
+                    Calculation: ½ × 1500 × (0.00m)² = 0.0 J Stored Energy
+                </div>
+            </div>
+        </div>
+
+        <!-- TYPES OF BOWS & ENERGY COMPARISON -->
+        <div class="card">
+            <h2>🏹 Types of Bows: Potential Energy & Projectile Motion</h2>
+            <p style="color: var(--muted); font-size: 0.9rem; margin-top: 5px;">
+                Different bow materials store and transfer mechanical energy in distinct ways:
+            </p>
+
+            <div class="bow-comparison">
+                <!-- BAMBOO BOW -->
+                <div class="bow-card">
+                    <h3>1. Bamboo Bow</h3>
+                    <span class="bow-badge badge-trad">Flexible / Easy Draw</span>
+                    <p>
+                        <b>Energy:</b> Lowest Potential Energy.<br>
+                        <b>Projectile Motion:</b> Smooth, arc-like trajectory with lower arrow speeds.
+                    </p>
+                </div>
+
+                <!-- WOOD & HORN BOW -->
+                <div class="bow-card">
+                    <h3>2. Wood & Horn Bow (Composite)</h3>
+                    <span class="bow-badge badge-pe">Balanced Energy</span>
+                    <p>
+                        <b>Energy:</b> Moderate Potential Energy.<br>
+                        <b>Projectile Motion:</b> Higher arrow speeds with a balanced arc trajectory.
+                    </p>
+                </div>
+
+                <!-- STEEL BOW -->
+                <div class="bow-card">
+                    <h3>3. Steel Bow (Crossbow / Dhanur Yantra)</h3>
+                    <span class="bow-badge badge-speed">Highest Stored Energy</span>
+                    <p>
+                        <b>Energy:</b> Extremely high Potential Energy stored in rigid steel limbs.<br>
+                        <b>Projectile Motion:</b> Highest initial launch speed and flattest trajectory.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIMULATOR -->
+        <div class="card">
+            <h2>🎯 Try It Yourself (Anti-Gravity Active)</h2>
+            <div class="sim-grid">
+                
+                <!-- CANVAS & CONTROLS -->
+                <div>
+                    <canvas id="simCanvas" width="500" height="320"></canvas>
+                    
+                    <div class="controls">
+                        <div>
+                            <div class="row"><span>Bow Material</span></div>
+                            <select id="matSelect" onchange="update()">
+                                <option value="800">Bamboo Bow (Flexible / Easy Pull)</option>
+                                <option value="1500" selected>Wood & Horn Bow (Medium / Balanced)</option>
+                                <option value="2500">Steel Bow (Very Stiff / Heavy Duty)</option>
+                            </select>
+                            <div id="stiffnessInfo" style="margin-top:8px; padding:10px; border-radius:8px; background:rgba(255,255,255,0.06); color:var(--muted); font-size:0.85rem; line-height:1.5;">
+                                Stiffness: 1500. This value is fixed for the selected material. Change the bow material to change stiffness; changing pull distance changes stored energy, not stiffness.
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="row"><span>Pull Distance (Stretch)</span><span id="pullTxt">0%</span></div>
+                            <input type="range" id="pullSlider" min="0" max="100" value="0" oninput="update()">
+                        </div>
+
+                        <div>
+                            <div class="row"><span>Aim Angle</span><span id="angleTxt">20°</span></div>
+                            <input type="range" id="angleSlider" min="0" max="45" value="0" oninput="update()">
+                        </div>
+
+                        <div>
+                            <div class="row"><span>Arrow Weight</span><span id="massTxt">0.10 kg</span></div>
+                            <input type="range" id="massSlider" min="0.05" max="0.30" step="0.01" value="0.10" oninput="update()">
+                        </div>
+
+                        <div class="btn-group">
+                            <button onclick="setFullPull()">Max Pull</button>
+                            <button style="background: var(--green); color: #fff;" onclick="shoot()">Shoot Arrow!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE READINGS -->
+                <div>
+                    <h3 style="margin-top:0;">Live Stats</h3>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="stat-title">Pulling Force</div>
+                            <div class="stat-value" id="forceVal">0 N</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-title">Stored Energy</div>
+                            <div class="stat-value" id="energyVal">0 J</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-title">Shot Speed</div>
+                            <div class="stat-value" id="speedVal">0 m/s</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-title">Estimated Distance</div>
+                            <div class="stat-value" id="distVal">0 m</div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 20px;">Quick Rules</h3>
+                    <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.4;">
+                        • <b>Stiffer materials</b> store much more energy.<br><br>
+                        • <b>Lighter arrows</b> fly much faster than heavy ones.<br><br>
+                        • <b>Anti-Gravity Field:</b> Arrows accelerate upward as they fly!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- WHAT WE HAVE LEARNED -->
+        <div class="card">
+            <h2>💡 What We Have Learned From This Assessment</h2>
+            <ul class="learned-list">
+                <li class="learned-item">
+                    <b>1. Energy Storage:</b> When we pull the bow back, muscle work turns into <i>Potential Energy</i> stored in the bent bow arms.
+                </li>
+                <li class="learned-item">
+                    <b>2. Energy Release:</b> The moment we pull the trigger, that trapped energy turns into <i>Kinetic Energy</i> (speed) to shoot the arrow.
+                </li>
+                <li class="learned-item">
+                    <b>3. The Pull Effect:</b> Pulling the bow twice as far back actually gives <b>4 times</b> the stored energy, making the arrow travel much faster and farther.
+                </li>
+                <li class="learned-item">
+                    <b>4. Ancient Engineering:</b> Ancient engineers built mechanical bows so archers could shoot heavier, stronger arrows without getting tired.
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Inputs
+        const matSelect = document.getElementById('matSelect');
+        const pullSlider = document.getElementById('pullSlider');
+        const angleSlider = document.getElementById('angleSlider');
+        const massSlider = document.getElementById('massSlider');
+
+        // Text Readouts
+        const pullTxt = document.getElementById('pullTxt');
+        const angleTxt = document.getElementById('angleTxt');
+        const massTxt = document.getElementById('massTxt');
+        const formulaCalc = document.getElementById('formulaCalc');
+        const stiffnessInfo = document.getElementById('stiffnessInfo');
+
+        // Stats
+        const forceVal = document.getElementById('forceVal');
+        const energyVal = document.getElementById('energyVal');
+        const speedVal = document.getElementById('speedVal');
+        const distVal = document.getElementById('distVal');
+
+        // Animation state
+        let animId = null;
+        let isShooting = false;
+        let arrowX = 0, arrowY = 0;
+        let vx = 0, vy = 0;
+        let path = [];
+
+        function getStats() {
+            const k = parseFloat(matSelect.value);
+            const pullPct = parseFloat(pullSlider.value);
+            const x = (pullPct / 100) * 0.7; 
+            const angle = parseFloat(angleSlider.value);
+            const mass = parseFloat(massSlider.value);
+
+            const force = k * x;
+            const energy = 0.5 * k * x * x;
+            const speed = mass > 0 ? Math.sqrt((2 * energy) / mass) : 0;
+            
+            const rad = (angle * Math.PI) / 180;
+            const distance = (speed * speed * Math.sin(2 * rad)) / 9.81;
+
+            return { force, energy, speed, distance, angle, x, rad, k };
+        }
+
+        function update() {
+            if (isShooting) return;
+
+            const s = getStats();
+            pullTxt.innerText = pullSlider.value + "%";
+            angleTxt.innerText = angleSlider.value + "°";
+            massTxt.innerText = massSlider.value + " kg";
+
+            const materialName = matSelect.options[matSelect.selectedIndex].text.split(" (")[0];
+            stiffnessInfo.innerText = \`Stiffness: \${s.k}. This value is fixed for the selected \${materialName} material. Change the bow material to change stiffness; changing pull distance changes stored energy, not stiffness.\`;
+
+            forceVal.innerText = Math.round(s.force) + " N";
+            energyVal.innerText = s.energy.toFixed(1) + " J";
+            speedVal.innerText = s.speed.toFixed(1) + " m/s";
+            distVal.innerText = s.distance.toFixed(1) + " m";
+
+            // Update formula live breakdown
+            formulaCalc.innerText = \`Calculation: ½ × \${s.k} × (\${s.x.toFixed(2)}m)² = \${s.energy.toFixed(1)} Joules Stored Energy\`;
+
+            draw();
+        }
+
+        function setFullPull() {
+            if (isShooting) return;
+            pullSlider.value = 100;
+            update();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const s = getStats();
+            const startX = 80;
+            const startY = 240;
+            const rad = (s.angle * Math.PI) / 180;
+
+            // Ground
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, startY + 20);
+            ctx.lineTo(canvas.width, startY + 20);
+            ctx.stroke();
+
+            // Rotate view for bow
+            ctx.save();
+            ctx.translate(startX, startY);
+            ctx.rotate(-rad);
+
+            // Wood Base Frame
+            ctx.fillStyle = "#475569";
+            ctx.fillRect(-20, -5, 120, 10);
+
+            // Curved Bow Arms
+            const pullOffset = (pullSlider.value / 100) * 40;
+            ctx.strokeStyle = "#f59e0b";
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(-pullOffset * 0.2, -60);
+            ctx.quadraticCurveTo(20 - pullOffset * 0.3, 0, -pullOffset * 0.2, 60);
+            ctx.stroke();
+
+            // Bow String
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-pullOffset * 0.2, -60);
+            ctx.lineTo(-pullOffset, 0);
+            ctx.lineTo(-pullOffset * 0.2, 60);
+            ctx.stroke();
+
+            // Arrow on bow (if not flying)
+            if (!isShooting) {
+                drawArrowShape(-pullOffset, 0);
+            }
+
+            ctx.restore();
+
+            // Draw Trajectory Path preview with Antigravity
+            if (s.speed > 0 && !isShooting) {
+                ctx.strokeStyle = "rgba(56, 189, 248, 0.4)";
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                
+                let px = startX;
+                let py = startY;
+                let pVx = s.speed * Math.cos(rad) * 0.25;
+                let pVy = -s.speed * Math.sin(rad) * 0.25;
+
+                ctx.moveTo(px, py);
+                for (let i = 0; i < 30; i++) {
+                    px += pVx;
+                    py += pVy;
+                    pVy -= 0.25; 
+                    ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw flying arrow
+            if (isShooting) {
+                ctx.strokeStyle = "#a855f7";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let i = 0; i < path.length; i++) {
+                    if (i === 0) ctx.moveTo(path[i].x, path[i].y);
+                    else ctx.lineTo(path[i].x, path[i].y);
+                }
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(arrowX, arrowY);
+                ctx.rotate(Math.atan2(vy, vx));
+                drawArrowShape(-40, 0);
+                ctx.restore();
+            }
+        }
+
+        function drawArrowShape(x, y) {
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 40, y);
+            ctx.stroke();
+
+            ctx.fillStyle = "#38bdf8";
+            ctx.beginPath();
+            ctx.moveTo(x + 40, y - 4);
+            ctx.lineTo(x + 50, y);
+            ctx.lineTo(x + 40, y + 4);
+            ctx.fill();
+        }
+
+        function shoot() {
+            const s = getStats();
+            if (s.speed <= 0 || isShooting) return;
+
+            isShooting = true;
+            arrowX = 80;
+            arrowY = 240;
+            path = [];
+
+            const rad = (s.angle * Math.PI) / 180;
+            const speedScale = 0.22; 
+            vx = s.speed * Math.cos(rad) * speedScale;
+            vy = -s.speed * Math.sin(rad) * speedScale;
+
+            pullSlider.value = 0;
+            pullTxt.innerText = "0%";
+
+            function step() {
+                path.push({ x: arrowX, y: arrowY });
+
+                arrowX += vx;
+                arrowY += vy;
+                vy -= 0.25; 
+
+                draw();
+
+                if (arrowY > -50 && arrowY < canvas.height + 50 && arrowX < canvas.width + 50) {
+                    animId = requestAnimationFrame(step);
+                } else {
+                    isShooting = false;
+                    update();
+                }
+            }
+
+            if (animId) cancelAnimationFrame(animId);
+            animId = requestAnimationFrame(step);
+        }
+
+        update();
+    </script>
+</body>
+</html>

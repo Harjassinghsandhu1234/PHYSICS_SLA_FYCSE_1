@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics SLA Showcase</title>
+    <!-- Fonts: Cormorant Garamond for headings, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-parchment: #fdfbf7;
+            --text-ink: #2c2825;
+            --text-muted: #57534e;
+            --text-faint: #78716c;
+            --accent-vermilion: #b91c1c;
+            --rule-color: rgba(44, 40, 37, 0.15);
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-parchment);
+            color: var(--text-ink);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* HEADER */
+        header {
+            padding: 80px 0 60px;
+            border-bottom: 2px solid var(--text-ink);
+            margin-bottom: 40px;
+        }
+
+        .museum-label {
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            color: var(--accent-vermilion);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: 4.5rem;
+            font-weight: 600;
+            line-height: 1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        /* CONTROLS (Search & Filters) */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .search-bar {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rule-color);
+            padding: 12px 0;
+            font-size: 1.25rem;
+            font-family: var(--font-serif);
+            color: var(--text-ink);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-bar::placeholder { color: var(--text-faint); }
+        .search-bar:focus { border-bottom-color: var(--accent-vermilion); }
+
+        .filters {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--rule-color);
+            padding: 6px 16px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--text-ink);
+            color: var(--text-ink);
+        }
+
+        .filter-btn.active {
+            background: var(--text-ink);
+            color: var(--bg-parchment);
+            border-color: var(--text-ink);
+        }
+
+        /* LIST LAYOUT */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 100px;
+        }
+
+        .project-row {
+            display: flex;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--rule-color);
+            position: relative;
+            align-items: flex-start;
+            gap: 32px;
+        }
+
+        .project-num {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--accent-vermilion);
+            width: 40px;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .project-content {
+            flex-grow: 1;
+        }
+
+        .project-group {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-vermilion);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .project-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            color: var(--text-ink);
+        }
+
+
+
+
+
+        .project-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .project-students {
+            font-size: 1.15rem;
+            color: var(--text-faint);
+            font-family: var(--font-serif);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-link {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-vermilion);
+            text-decoration: none;
+            font-weight: 500;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s;
+        }
+        .action-link:hover { color: var(--text-ink); }
+
+        .project-visual {
+            width: 280px;
+            aspect-ratio: 4/3;
+            height: auto;
+            flex-shrink: 0;
+            position: relative;
+            background: #eae6df;
+            overflow: hidden;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(44, 40, 37, 0.3);
+        }
+
+        .project-row:hover .project-visual {
+            opacity: 1;
+        }
+
+        .project-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: multiply;
+        }
+
+        .no-results {
+            padding: 60px 0;
+            text-align: center;
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--rule-color);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(253, 251, 247, 0.95); backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: opacity 0.2s; z-index: 1000;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            width: 95%; max-width: 1200px; height: 90vh;
+            background: var(--bg-parchment);
+            display: flex; flex-direction: column;
+            border: 1px solid var(--text-ink);
+            box-shadow: 10px 10px 0 rgba(44, 40, 37, 0.1);
+        }
+        .modal-header {
+            padding: 16px 24px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid var(--text-ink);
+        }
+        .modal-title { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; }
+        .modal-close {
+            background: none; border: none; font-size: 2rem; cursor: pointer;
+            color: var(--text-ink); font-family: var(--font-sans); line-height: 1;
+        }
+        .modal-body { flex-grow: 1; position: relative; background: #fff;}
+        iframe { width: 100%; height: 100%; border: none; }
+
+        footer {
+            border-top: 1px solid var(--rule-color);
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 60px;
+            line-height: 1.8;
+        }
+        footer a { color: var(--accent-vermilion); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media(max-width: 768px) {
+            .project-row { flex-direction: column; gap: 16px; }
+            .project-visual { width: 100%; height: auto; aspect-ratio: 16/9; }
+            .hero-title { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="museum-label">FYCSE Division 1 • Prof. Snehal Wagh</div>
+            <h1 class="hero-title">Ancient Instruments<br>of Indian Astronomy</h1>
+            <p class="hero-subtitle">
+                62 students built working digital models of historical Indian instruments. 
+                Each interactive project explains the physics principles behind the device and lets you experiment with its mechanics.
+            </p>
+        </header>
+
+        <section class="controls">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Search by student name or yantra...">
+
+        </section>
+
+        <section class="project-list" id="projectList">
+            <!-- Rows populated by JS -->
+        </section>
+
+        <footer>
+            <p>Physics SLA Showcase • FYCSE Division 1 • Class of 2026</p>
+            <p>Course Instructor: Prof. Snehal Wagh</p>
+            <p><a href="mailto:snehal.wagh@example.edu">Contact Instructor</a></p>
+        </footer>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="previewModal" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Preview</h3>
+                <div style="display:flex; gap:20px; align-items:center;">
+                    <a href="#" id="modalOpenTab" target="_blank" class="action-link">Open Full Screen</a>
+                    <button class="modal-close" id="modalClose">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="modalIframe" src="" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projects = [
+            {
+                id: "01",
+                student: "Ishan Gupta, Reyansh Kasliwal, Disha Bharambe, Nimish Tanmane, Aarush Takawane, Kapil Adhiraju",
+                category: "CHAKRA YANTRA",
+                desc: "Measures the declination and meridian zenith distance of celestial bodies using a suspended circular wheel.",
+                topic: "Mechanics",
+                group: "GROUP 1-6",
+                url: "projects/group1-6/index.html",
+                thumbnail: "thumbnails/group1-6.jpg",
+                fallback: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=600&q=80"
+            },
+            {
+                id: "02",
+                student: "Aditi Raktate, Shreeya Muley, Parth Nikam, Arnav Gandhi, Rudra Patel, Somit Singh",
+                category: "YASTI YANTRA",
+                desc: "An equatorial sundial that determines time by casting the sun's shadow across two opposing hemispherical dials.",
+                topic: "Measurement",
+                group: "GROUP 7-12",
+                url: "projects/group7-12/index.html",
+                thumbnail: "thumbnails/group7-12.png",
+                fallback: "https://images.unsplash.com/photo-1614729939124-03290b0409c6?w=600&q=80"
+            },
+            {
+                id: "03",
+                student: "Shivanjali Pradeep, Arnav Kulkarni, Ved Bedekar, Samika khare, Raj Telang, Kanav Singh",
+                category: "PHALAKA YANTRA",
+                desc: "An ingenious wooden board instrument designed by Bhaskara II to calculate exact local time from the sun's altitude.",
+                topic: "Simulation",
+                group: "GROUP 13-18",
+                url: "projects/group13-18/index.html",
+                thumbnail: "thumbnails/group13-18.jpg",
+                fallback: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80"
+            },
+            {
+                id: "04",
+                student: "Advay Gandhi, Durwa Kalshetti, Rudra Ovhal, Sonakshi Padhy, Ritika Deshmukh, Shourya Bhosale",
+                category: "PHALAKA YANTRA",
+                desc: "An adaptation of the Phalaka board calibrated specifically to determine local geographical latitude and solar declination.",
+                topic: "Simulation",
+                group: "GROUP 19-24",
+                url: "projects/group19-24/dist/index.html",
+                thumbnail: "thumbnails/group19-24.jpg",
+                fallback: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80"
+            },
+            {
+                id: "05",
+                student: "Ahan Kulawade, Sumidha Adke, Hemal Narkhede, Anand Tiwary, Tanvi Patil, Arjun Nigade",
+                category: "SANDHYA YANTRA",
+                desc: "A simplified gnomon stick used by ancient astronomers to measure shadow lengths and calculate planetary positions.",
+                topic: "Optics",
+                group: "GROUP 25-30",
+                url: "projects/group25-30/index.html",
+                thumbnail: "thumbnails/group25-30.png",
+                fallback: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&q=80"
+            },
+            {
+                id: "06",
+                student: "Avani Shastri, Siya kale, Mrunmayee Kulkarni, Taal Patil, Kashish Sharma, Kshiteej Mali",
+                category: "VERNIER CALIPER",
+                desc: "A modern precision mechanical instrument for measuring internal and external distances with extreme accuracy.",
+                topic: "Measurement",
+                group: "GROUP 31-36",
+                url: "projects/group31-36/index.html",
+                thumbnail: "thumbnails/group31-36.jpg",
+                fallback: "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&q=80"
+            },
+            {
+                id: "07a",
+                student: "Rohan Patil, Tanishka Kulkarni, Tirtha Shastri, Tejas Pasalkar, Tanish Pasalkaar",
+                category: "DHANUR YANTRA",
+                desc: "An easy guide to understanding how mechanical bows work (Anti-Gravity Mode)",
+                topic: "Mechanics",
+                group: "GROUP 37-42",
+                url: "projects/group37-42/index.html",
+                thumbnail: "thumbnails/group37-42.jpg",
+                fallback: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&q=80"
+            },
+            {
+                id: "07b",
+                student: "Rohan Patil, Tanishka Kulkarni, Tirtha Shastri, Tejas Pasalkar, Tanish Pasalkaar",
+                category: "DHANUR YANTRA",
+                desc: "An Automated Bow & Arrow System Project that aims and shoots using motors.",
+                topic: "Mechanics",
+                group: "GROUP 37-42",
+                url: "projects/group37-42-b/index.html",
+                thumbnail: "thumbnails/group37-42-b.jpg",
+                fallback: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&q=80"
+            },
+            {
+                id: "08",
+                student: "Tanishq Kale, Avanish Sonalkar, Swara Kulkarni, Shamika Kondekar, Vyom Bhayani, Arya Kale",
+                category: "CHAPA YANTRA",
+                desc: "A semi-circular arc suspended vertically to precisely measure the zenith distances of the sun and moon.",
+                topic: "Simulation",
+                group: "GROUP 43-49",
+                url: "projects/group43-49/index.html",
+                thumbnail: "thumbnails/group43-49.jpg",
+                fallback: "https://images.unsplash.com/photo-1611003228941-98852ba62227?w=600&q=80"
+            },
+            {
+                id: "09",
+                student: "Nupur Pujari, Bilal Quraishy, Hritika Sinha, Sarthak Wabale, Rajat Joshi, Harjas Singh",
+                category: "GHATI YANTRA",
+                desc: "An ancient sinking-bowl water clock used to measure time accurately independent of sunlight and weather.",
+                topic: "Measurement",
+                group: "GROUP 50-55",
+                url: "projects/group50-55/dist/index.html",
+                thumbnail: "thumbnails/group50-55.jpg",
+                fallback: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80"
+            },
+            {
+                id: "10",
+                student: "Safiya Ansari, Shaurya Jagtap, Aashni Dhond, Rishabh Virkar, Shreyanvi, Kapish Gaikwad, Aayush Vispute",
+                category: "SAMRAT YANTRA",
+                desc: "The 'Supreme Instrument', a massive architectural sundial that measures local time with a precision of seconds.",
+                topic: "Optics",
+                group: "GROUP 56-62",
+                url: "https://dolphin-bgf7wv.my.canva.site/physics-project",
+                thumbnail: "thumbnails/group56-62.jpg",
+                fallback: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80"
+            }
+        ];
+
+
+        let searchQuery = '';
+
+        const listContainer = document.getElementById('projectList');
+
+        const searchInput = document.getElementById('searchInput');
+
+        const modal = document.getElementById('previewModal');
+        const modalIframe = document.getElementById('modalIframe');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalOpenTab = document.getElementById('modalOpenTab');
+        const modalClose = document.getElementById('modalClose');
+
+        function renderProjects() {
+            listContainer.innerHTML = '';
+            
+            let data = projects.filter(p => {
+                const query = searchQuery.toLowerCase();
+                return p.student.toLowerCase().includes(query) || 
+                       p.category.toLowerCase().includes(query);
+            });
+
+
+
+            if (data.length === 0) {
+                listContainer.innerHTML = '<div class="no-results">No instruments match your search.</div>';
+                return;
+            }
+
+            data.forEach(project => {
+                const row = document.createElement('div');
+                row.className = 'project-row';
+                
+                const previewAction = project.url.includes('canva.site') 
+                    ? '' 
+                    : `<button class="action-link btn-preview" data-url="${project.url}" data-title="${project.category}">Preview</button>`;
+
+                row.innerHTML = `
+                    <div class="project-num">${project.id}</div>
+                    <div class="project-content">
+                        <div class="project-group">${project.group}</div>
+                        <h2 class="project-title">${project.category}</h2>
+                        
+                        <div class="project-meta-row">
+                            <div class="project-students">${project.student}</div>
+                        </div>
+
+                        <div class="project-actions">
+                            <a href="${project.url}" target="_blank" class="action-link">View Project</a>
+                            ${previewAction}
+                        </div>
+                    </div>
+                    <div class="project-visual">
+                        <img src="${project.thumbnail}" onerror="this.onerror=null; this.src='${project.fallback}'" alt="${project.category} Thumbnail" loading="lazy">
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+
+            document.querySelectorAll('.btn-preview').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const url = e.target.getAttribute('data-url');
+                    const title = e.target.getAttribute('data-title');
+                    openModal(url, title);
+                });
+            });
+        }
+
+        function init() {
+            renderProjects();
+            
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderProjects();
+            });
+
+
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+            });
+        }
+
+        function openModal(url, title) {
+            modalTitle.textContent = title;
+            modalOpenTab.href = url;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => { modalIframe.src = url; }, 50);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { modalIframe.src = ''; }, 300);
+        }
+
+        init();
+    </script>
+</body>
+</html>

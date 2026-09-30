@@ -1,13 +1,21 @@
 {
-  "services": {
-    "group-a": { "root": "projects/group19-24", "framework": "vite" },
-    "group-b": { "root": "projects/group50-55", "framework": "vite" }
-  },
-  "rewrites": [
-    { "source": "/group19-24/(.*)", "destination": { "service": "group-a" } },
-    { "source": "/group50-55/(.*)", "destination": { "service": "group-b" } }
-  ],
+  "buildCommand": "bash build-all.sh",
+  "outputDirectory": "dist",
   "redirects": [
-    { "source": "/", "destination": "/group19-24/", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/group19-24/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/group19-24/(.*)",
+      "destination": "/group19-24/index.html"
+    },
+    {
+      "source": "/group50-55/(.*)",
+      "destination": "/group50-55/index.html"
+    }
   ]
 }

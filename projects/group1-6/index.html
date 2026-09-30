@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Chakra Yantra — Ancient India's Astronomical Instrument</title>
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="progress"></div>
+    <nav>
+      <div class="logo">Chakra Yantra</div>
+      <div class="navlinks">
+        <a href="#interactive">Instrument</a><a href="#story">History</a
+        ><a href="#visuals">Sky</a><a href="#info">Science</a
+        ><a href="#compare">Compare</a>
+      </div>
+    </nav>
+
+    <section id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-inner">
+        <div class="eyebrow">
+          <span>Jantar Mantar · Naked-Eye Astronomy</span>
+        </div>
+        <h1 class="title">
+          <div class="line"><span class="word">Chakra</span></div>
+          <div class="line"><span class="word">Yantra</span></div>
+        </h1>
+        <p class="subtitle">
+          Ancient India's Astronomical Instrument for Tracking Celestial Bodies.
+        </p>
+      </div>
+      <div class="scroll-cue">
+        <span>Scroll</span>
+        <div class="stick"></div>
+      </div>
+    </section>
+
+    <canvas id="story-canvas"></canvas>
+
+    <section id="interactive">
+      <div class="sec-head">
+        <div class="eyebrow"><span>The Instrument</span></div>
+        <h2>Explore the Yantra</h2>
+        <p>
+          Select a point on the instrument to reveal how it measured the sky.
+        </p>
+      </div>
+      <div class="yantra-stage">
+        <canvas id="yantra-canvas"></canvas>
+        <div class="hotspot" data-id="0" style="top: 23%; left: 50%">
+          <div class="dot"></div>
+        </div>
+        <div class="hotspot" data-id="1" style="top: 50%; left: 85%">
+          <div class="dot"></div>
+        </div>
+        <div class="hotspot" data-id="2" style="top: 50%; left: 15%">
+          <div class="dot"></div>
+        </div>
+        <div class="hotspot" data-id="3" style="top: 77%; left: 50%">
+          <div class="dot"></div>
+        </div>
+        <div class="info-panel glass" id="panel-0" style="top: 2%; left: 56%">
+          <svg class="mini-illust" viewBox="0 0 200 50">
+            <line
+              x1="0"
+              y1="25"
+              x2="200"
+              y2="25"
+              stroke="#8c8c8c"
+              stroke-width="1" />
+            <circle cx="100" cy="25" r="6" fill="#f4f4f2" />
+            <line
+              x1="100"
+              y1="25"
+              x2="140"
+              y2="5"
+              stroke="#f4f4f2"
+              stroke-width="1" />
+          </svg>
+          <h4>Polar Axis Gnomon</h4>
+          <div class="row">
+            <b>Measures</b>Declination and hour angle of the sun
+          </div>
+          <div class="row">
+            <b>Method</b>A shaft aligned to the celestial pole casts a shadow
+            marking solar time directly
+          </div>
+          <div class="row"><b>Tracks</b>Sun's daily and seasonal path</div>
+        </div>
+        <div class="info-panel glass" id="panel-1" style="top: 38%; left: 70%">
+          <svg class="mini-illust" viewBox="0 0 200 50">
+            <circle
+              cx="100"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke="#8c8c8c"
+              stroke-width="1" />
+            <circle cx="100" cy="25" r="3" fill="#f4f4f2" />
+          </svg>
+          <h4>Graduated Outer Ring</h4>
+          <div class="row">
+            <b>Measures</b>Azimuth — angular position along the horizon
+          </div>
+          <div class="row">
+            <b>Method</b>Degree markings let observers sight a star or planet
+            against fixed scale lines
+          </div>
+          <div class="row">
+            <b>Tracks</b>Rising and setting points of planets
+          </div>
+        </div>
+        <div class="info-panel glass" id="panel-2" style="top: 38%; left: 2%">
+          <svg class="mini-illust" viewBox="0 0 200 50">
+            <rect
+              x="70"
+              y="10"
+              width="60"
+              height="30"
+              fill="none"
+              stroke="#8c8c8c" />
+            <line x1="70" y1="25" x2="130" y2="25" stroke="#f4f4f2" />
+          </svg>
+          <h4>Equatorial Frame</h4>
+          <div class="row">
+            <b>Measures</b>Right ascension along the celestial equator
+          </div>
+          <div class="row">
+            <b>Method</b>Frame tilted to local latitude keeps the ring parallel
+            to Earth's equatorial plane
+          </div>
+          <div class="row"><b>Tracks</b>Stars crossing the meridian</div>
+        </div>
+        <div class="info-panel glass" id="panel-3" style="top: 64%; left: 56%">
+          <svg class="mini-illust" viewBox="0 0 200 50">
+            <path
+              d="M20 40 Q100 -10 180 40"
+              fill="none"
+              stroke="#8c8c8c"
+              stroke-width="1" />
+            <circle cx="100" cy="16" r="4" fill="#f4f4f2" />
+          </svg>
+          <h4>Sighting Arc</h4>
+          <div class="row">
+            <b>Measures</b>Altitude of a celestial body above horizon
+          </div>
+          <div class="row">
+            <b>Method</b>Movable arm rotates along a calibrated arc for precise
+            elevation readings
+          </div>
+          <div class="row">
+            <b>Tracks</b>Moon and visible planets (Mercury–Saturn)
+          </div>
+        </div>
+      </div>
+      <div class="hint">Hover or tap a marker</div>
+    </section>
+
+    <section id="story">
+      <div class="story-sec reveal">
+        <div class="story-card glass">
+          <div class="story-num">Cast in Bronze, Set in Stone — Origins</div>
+          <h3>Built for the Sky</h3>
+          <p>
+            Maharaja Sawai Jai Singh II, dissatisfied with the brass astrolabes
+            of his court, commissioned instruments built to architectural scale.
+            Masons and metalworkers raised the Chakra Yantra as a ring of cast
+            metal, precisely centred on a stone pier and levelled against a
+            plumb line, so that its plane would hold true to the sky for
+            centuries rather than seasons.
+          </p>
+          <p>
+            Five such observatories rose across northern India &mdash; in Delhi,
+            Jaipur, Ujjain, Varanasi and Mathura &mdash; each a working
+            laboratory where geometry, metallurgy and observation met.
+          </p>
+        </div>
+      </div>
+      <div class="story-sec reveal">
+        <div class="story-card glass">
+          <div class="story-num">Pointed at a Fixed Star — Alignment</div>
+          <h3>Set Against the Pole</h3>
+          <p>
+            Before a single reading could be trusted, the instrument had to be
+            aligned. Its central axis was tilted to match the local latitude and
+            fixed on the celestial pole &mdash; the still point around which
+            every star appears to wheel through the night. Get this angle wrong
+            by a fraction of a degree, and every measurement taken afterward
+            drifts with it.
+          </p>
+          <p>
+            Once aligned, the ring's plane matched the plane of the sky's
+            equator: a physical model of an invisible coordinate grid, built
+            from stone and bronze.
+          </p>
+        </div>
+      </div>
+      <div class="story-sec reveal">
+        <div class="story-card glass">
+          <div class="story-num">Daily Observation</div>
+          <h3>Following Sun, Moon, Planets</h3>
+          <p>
+            Each day, astronomers tracked the shadow cast by the instrument's
+            central gnomon as it crept across the graduated ring. The Sun's
+            shadow revealed its position hour by hour. At night, sighting arms
+            were swung toward the Moon, Venus, Jupiter and Saturn &mdash; the
+            five planets visible to the naked eye &mdash; and their positions
+            logged against the same fixed scale.
+          </p>
+          <p>
+            Over months of readings, these observations built almanacs precise
+            enough to predict eclipses and planetary conjunctions.
+          </p>
+        </div>
+      </div>
+      <div class="story-sec reveal">
+        <div class="story-card glass">
+          <div class="story-num">Reading the Ring — Coordinates</div>
+          <h3>Longitude and Latitude of the Sky</h3>
+          <p>
+            Just as lines of latitude and longitude fix a place on Earth,
+            celestial coordinates fix a point in the sky. The Chakra Yantra's
+            graduated edge measured hour angle &mdash; the sky's version of
+            longitude &mdash; while a second ring recorded declination, the
+            sky's latitude, measured north or south of the celestial equator.
+          </p>
+          <p>
+            Together, the two readings pinned a star or planet to a single,
+            repeatable coordinate &mdash; the same principle that still
+            underlies modern astronomical catalogues.
+          </p>
+        </div>
+      </div>
+      <div class="story-sec reveal">
+        <div class="story-card glass">
+          <div class="story-num">Legacy Three Centuries On</div>
+          <h3>Stone Instruments Still Accurate Today</h3>
+          <p>
+            Studies of the Jantar Mantar instruments have found some readings
+            accurate to within a couple of minutes of arc &mdash; a remarkable
+            figure for devices with no lenses, no motors and no glass at all.
+            Their scale, rather than being excess, was the technology: a larger
+            ring meant every degree occupied more physical space, and error
+            shrank accordingly.
+          </p>
+          <p>
+            Where a modern telescope gathers faint light through curved glass
+            and sensors, the Chakra Yantra achieved precision through pure
+            geometry &mdash; proof that careful construction can rival delicate
+            optics.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="visuals">
+      <div class="sec-head">
+        <div class="eyebrow"><span>The Living Sky</span></div>
+        <h2>Astronomy in Motion</h2>
+      </div>
+      <div class="viz-grid">
+        <div class="viz-card glass">
+          <h4>Orbiting Planets</h4>
+          <p>The visible planets circling the sun</p>
+          <div class="viz-canvas-holder">
+            <canvas id="orbit-canvas"></canvas>
+          </div>
+        </div>
+        <div class="viz-card glass">
+          <h4>Zodiac Ring</h4>
+          <p>The ecliptic divided into twelve houses</p>
+          <div class="viz-canvas-holder">
+            <div class="zodiac-wheel">
+              <div class="ring r1"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="viz-card glass">
+          <h4>Celestial Sphere</h4>
+          <p>Stars mapped onto an imaginary sphere</p>
+          <div class="viz-canvas-holder">
+            <canvas id="sphere-canvas"></canvas>
+          </div>
+        </div>
+        <div class="viz-card glass">
+          <h4>Day to Night</h4>
+          <p>The gnomon's shadow across one day</p>
+          <div
+            class="viz-canvas-holder"
+            style="display: flex; flex-direction: column; padding: 1rem">
+            <div class="daynight-bar" id="daynight">
+              <div class="marker" id="dn-marker" style="left: 50%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="info">
+      <div class="sec-head">
+        <div class="eyebrow"><span>Understanding the Instrument</span></div>
+        <h2>Science & Construction</h2>
+      </div>
+      <div class="info-list">
+        <div class="info-row reveal">
+          <div class="tag">History</div>
+          <div>
+            <h3>A Royal Observatory</h3>
+            <p>
+              Jai Singh II built five Jantar Mantar complexes — Delhi, Jaipur,
+              Ujjain, Mathura and Varanasi — between 1724 and 1735, each
+              refining earlier Islamic and Hindu instrument traditions into
+              monumental stone architecture designed purely for reading the sky.
+            </p>
+          </div>
+        </div>
+        <div class="info-row reveal">
+          <div class="tag">Construction</div>
+          <div>
+            <h3>Geometry as Precision</h3>
+            <p>
+              Rather than small brass fittings prone to flex and drift, the
+              Chakra Yantra used massive masonry rings and axes. Scale itself
+              became the source of accuracy: larger radii meant finer
+              graduations and smaller reading error.
+            </p>
+          </div>
+        </div>
+        <div class="info-row reveal">
+          <div class="tag">Working Principle</div>
+          <div>
+            <h3>The Sky as a Protractor</h3>
+            <p>
+              A fixed axis parallel to Earth's rotational axis lets the ring
+              rotate in step with the stars. An observer aligns a sighting bar
+              with a body and reads its angular position directly off the
+              graduated scale.
+            </p>
+          </div>
+        </div>
+        <div class="info-row reveal">
+          <div class="tag">Observation Method</div>
+          <div>
+            <h3>Tracking the Wanderers</h3>
+            <p>
+              Planets were logged night after night as they drifted against the
+              fixed stars. Comparing successive readings revealed retrograde
+              motion, conjunctions, and the timing of eclipses and transits.
+            </p>
+          </div>
+        </div>
+        <div class="info-row reveal">
+          <div class="tag">Physics</div>
+          <div>
+            <h3>Spherical Trigonometry in Stone</h3>
+            <p>
+              Every yantra is a physical solution to a trigonometric equation —
+              converting an observed angle into declination, right ascension or
+              ecliptic longitude using the geometry of the celestial sphere.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="sec-head">
+        <div class="eyebrow"><span>Then & Now</span></div>
+        <h2>Against Modern Telescopes</h2>
+      </div>
+      <div class="compare-wrap glass">
+        <table>
+          <tr>
+            <th>Aspect</th>
+            <th>Chakra Yantra</th>
+            <th>Modern Telescope</th>
+          </tr>
+          <tr>
+            <td>Precision</td>
+            <td>Within ~1 arc-minute</td>
+            <td>Sub arc-second</td>
+          </tr>
+          <tr>
+            <td>Power Source</td>
+            <td>None — purely mechanical</td>
+            <td>Electronic drives & sensors</td>
+          </tr>
+          <tr>
+            <td>Range</td>
+            <td>Naked-eye visible bodies</td>
+            <td>Deep-space, invisible spectra</td>
+          </tr>
+          <tr>
+            <td>Method</td>
+            <td>Direct angular sighting</td>
+            <td>Photon collection & computation</td>
+          </tr>
+          <tr>
+            <td>Longevity</td>
+            <td>Functions 300 years later</td>
+            <td>Requires ongoing maintenance</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+
+    <footer style="display:flex; flex-direction:column; gap:0.5rem;">
+      <div>Chakra Yantra — A Tribute to Ancient Indian Astronomy · Built with Three.js & Anime.js</div>
+      <div style="font-size:0.85rem; color:var(--mist); opacity:0.8;">FY-CSE(A)</div>
+      <div style="font-size:0.75rem; color:var(--fog); font-style:italic;">
+        Kapil Adhiraju, Nimish Tanmane, Disha Bharambe, Aarush Takawane, Ishan Gupta, Reyansh Kasliwal
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

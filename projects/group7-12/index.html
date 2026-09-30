@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yasti Yantra — Reading the Sky Through Shadow</title>
+  <meta name="description"
+    content="An interactive exhibition on the Yasti Yantra, an ancient Indian instrument for measuring the sky with a staff, sunlight and geometry." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23C9A15A'/%3E%3C/svg%3E">
+</head>
+
+<body>
+
+  <!-- ============================================================ -->
+  <!-- LOADER -->
+  <!-- ============================================================ -->
+  <div id="loader" aria-hidden="true">
+    <svg id="loader-svg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+      <g id="loader-stars"></g>
+      <g id="loader-lines"></g>
+      <g id="loader-yasti" opacity="0">
+        <line x1="400" y1="180" x2="400" y2="420" stroke="#E7D9BC" stroke-width="2.5" />
+        <line x1="330" y1="420" x2="470" y2="420" stroke="#E7D9BC" stroke-width="2.5" />
+        <line x1="400" y1="420" x2="470" y2="420" stroke="#C9A15A" stroke-width="4" />
+      </g>
+    </svg>
+    <div id="loader-text">
+      <h1>YASTI YANTRA</h1>
+      <p>Reading the sky through shadow, geometry and observation</p>
+    </div>
+    <div id="loader-progress">
+      <div id="loader-progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- NAV -->
+  <!-- ============================================================ -->
+  <header id="site-nav" class="hidden-until-ready">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-mark" aria-label="Yasti Yantra, back to top">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1" />
+          <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="1" />
+        </svg>
+        <span>Yasti Yantra</span>
+      </a>
+      <nav aria-label="Section navigation">
+        <ul>
+          <li><a href="#yasti" data-nav="yasti">Yasti</a></li>
+          <li><a href="#history" data-nav="history">History</a></li>
+          <li><a href="#science" data-nav="science">Science</a></li>
+          <li><a href="#simulator" data-nav="simulator">Simulator</a></li>
+          <li><a href="#sky" data-nav="sky">Sky</a></li>
+        </ul>
+      </nav>
+      <button id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div id="scroll-progress">
+      <div id="scroll-progress-fill"></div>
+      <div id="scroll-progress-sun">☉</div>
+    </div>
+  </header>
+
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Section navigation">
+    <ul>
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#yasti">Yasti</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#science">Science</a></li>
+      <li><a href="#simulator">Simulator</a></li>
+      <li><a href="#sky">Sky</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+    </ul>
+  </div>
+
+  <main id="main" class="hidden-until-ready">
+
+    <!-- ============================================================ -->
+    <!-- HERO -->
+    <!-- ============================================================ -->
+    <section id="hero" aria-label="Introduction">
+      <div class="hero-stage">
+        <svg id="hero-sky" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0A1020" />
+              <stop offset="45%" stop-color="#16233C" />
+              <stop offset="75%" stop-color="#3B4A63" />
+              <stop offset="100%" stop-color="#C98B4A" />
+            </linearGradient>
+            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#FFE8B8" stop-opacity="0.95" />
+              <stop offset="45%" stop-color="#F3B45C" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#F3B45C" stop-opacity="0" />
+            </radialGradient>
+            <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#8A6A45" />
+              <stop offset="100%" stop-color="#4B3A28" />
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="1440" height="900" fill="url(#skyGrad)" />
+          <g id="hero-stars"></g>
+          <circle id="hero-sun-glow" cx="1080" cy="720" r="140" fill="url(#sunGlow)" />
+          <circle id="hero-sun" cx="1080" cy="720" r="34" fill="#FFF1D0" />
+          <rect x="0" y="640" width="1440" height="260" fill="url(#groundGrad)" />
+          <ellipse cx="720" cy="642" rx="720" ry="10" fill="#6B5236" opacity="0.6" />
+          <!-- shadow cast by yasti, length/angle set by script -->
+          <line id="hero-shadow" x1="720" y1="640" x2="620" y2="640" stroke="#1A140C" stroke-width="10"
+            stroke-linecap="round" opacity="0.55" />
+          <!-- yasti yantra silhouette -->
+          <g id="hero-yasti">
+            <rect x="705" y="500" width="30" height="8" rx="2" fill="#3A2D1E" />
+            <line x1="720" y1="504" x2="720" y2="640" stroke="#241B10" stroke-width="9" stroke-linecap="round" />
+            <circle cx="720" cy="500" r="6" fill="#C9A15A" />
+          </g>
+          <g id="hero-measure-lines" opacity="0"></g>
+        </svg>
+
+        <div class="hero-copy">
+          <p class="hero-eyebrow">An Ancient Indian Astronomical Instrument</p>
+          <h1 class="hero-title">Yasti Yantra</h1>
+          <p class="hero-sub">How ancient observers measured the sky with a simple staff and mathematics.</p>
+        </div>
+
+        <div class="scroll-cue" id="scroll-cue">
+          <span>Scroll to begin</span>
+          <svg width="14" height="22" viewBox="0 0 14 22" aria-hidden="true">
+            <rect x="1" y="1" width="12" height="20" rx="6" fill="none" stroke="currentColor" stroke-width="1" />
+            <circle id="scroll-cue-dot" cx="7" cy="7" r="2" fill="currentColor" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- HISTORY -->
+    <!-- ============================================================ -->
+    <section id="history" aria-label="Before the telescope">
+      <div class="parchment-noise" aria-hidden="true"></div>
+      <div class="section-inner">
+        <p class="section-eyebrow">Before the telescope</p>
+        <h2 class="section-title">A sky studied without glass or circuitry</h2>
+
+        <div class="history-grid">
+          <div class="history-text">
+            <p>Centuries before the telescope reached India, astronomers here were already tracking the sky with care.
+              They watched the Sun rise and set from slightly different points along the horizon through the year. They
+              followed the Moon's changing shape and the slow drift of the stars.</p>
+            <p>What they had was mathematics, patient observation, and instruments built from stone, metal and wood. A
+              shadow, cast at the right place and measured correctly, could tell you the time, the season, even your
+              position on the Earth.</p>
+            <p>The Yasti Yantra belongs to this world. Its name comes from Sanskrit: <em>yasti</em>, a staff or rod. No
+              lenses. No moving parts beyond the observer's own hands. Just a straight stick, held or mounted upright,
+              and the shadow it throws.</p>
+          </div>
+          <div class="history-visual" aria-hidden="true">
+            <svg viewBox="0 0 420 420">
+              <circle cx="210" cy="210" r="180" fill="none" stroke="#8A6A45" stroke-width="1" opacity="0.5" />
+              <circle cx="210" cy="210" r="140" fill="none" stroke="#8A6A45" stroke-width="0.6" opacity="0.4" />
+              <circle cx="210" cy="210" r="100" fill="none" stroke="#8A6A45" stroke-width="0.6" opacity="0.4" />
+              <g id="history-ticks"></g>
+              <g id="history-stars"></g>
+              <line x1="210" y1="60" x2="210" y2="360" stroke="#A6764B" stroke-width="0.6" opacity="0.5" />
+              <line x1="60" y1="210" x2="360" y2="210" stroke="#A6764B" stroke-width="0.6" opacity="0.5" />
+            </svg>
+          </div>
+        </div>
+
+        <ul class="fact-strip" aria-hidden="false">
+          <li><span class="fact-num">01</span>Sun</li>
+          <li><span class="fact-num">02</span>Moon</li>
+          <li><span class="fact-num">03</span>Stars</li>
+          <li><span class="fact-num">04</span>Planets</li>
+          <li><span class="fact-num">05</span>Time</li>
+          <li><span class="fact-num">06</span>Angles</li>
+          <li><span class="fact-num">07</span>Celestial motion</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- DID YOU KNOW: 1 -->
+    <aside class="dyk" data-dyk>
+      <div class="dyk-inner">
+        <p class="dyk-label">Did you know?</p>
+        <p class="dyk-fact">A shadow's length changes with both the time of day and the season — the same staff tells a
+          different story every morning.</p>
+      </div>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- YASTI YANTRA BREAKDOWN -->
+    <!-- ============================================================ -->
+    <section id="yasti" aria-label="The instrument">
+      <div class="section-inner">
+        <p class="section-eyebrow">The instrument</p>
+        <h2 class="section-title">A staff, and everything it can tell you</h2>
+        <p class="section-lead">Touch or hover the instrument to see how each part works.</p>
+
+        <div class="yasti-stage">
+          <svg id="yasti-svg" viewBox="0 0 700 560" role="group" aria-label="Diagram of the Yasti Yantra">
+            <line x1="60" y1="470" x2="640" y2="470" stroke="#5C4A34" stroke-width="1" opacity="0.5" />
+            <!-- ground graduation -->
+            <g id="yasti-ground-ticks"></g>
+
+            <!-- shadow -->
+            <g class="yasti-part" data-part="shadow" tabindex="0" role="button" aria-label="Shadow">
+              <rect x="350" y="464" width="180" height="10" rx="2" fill="#1A140C" opacity="0.5" />
+            </g>
+
+            <!-- sun -->
+            <g class="yasti-part" data-part="sun" tabindex="0" role="button" aria-label="Sun">
+              <circle cx="560" cy="90" r="30" fill="#F3B45C" />
+              <circle cx="560" cy="90" r="46" fill="#F3B45C" opacity="0.18" />
+              <line id="yasti-sun-ray" x1="560" y1="90" x2="350" y2="470" stroke="#F3B45C" stroke-width="1.5"
+                stroke-dasharray="4 5" opacity="0.7" />
+            </g>
+
+            <!-- staff -->
+            <g class="yasti-part" data-part="staff" tabindex="0" role="button" aria-label="Staff">
+              <rect x="336" y="130" width="28" height="14" rx="2" fill="#4B3A28" />
+              <line x1="350" y1="144" x2="350" y2="470" stroke="#2B2015" stroke-width="12" stroke-linecap="round" />
+              <line x1="350" y1="144" x2="350" y2="470" stroke="#5A4630" stroke-width="4" />
+            </g>
+
+            <!-- measurement -->
+            <g class="yasti-part" data-part="measurement" tabindex="0" role="button" aria-label="Measurement">
+              <path d="M 350 470 A 180 180 0 0 1 415 320" fill="none" stroke="#C9A15A" stroke-width="1.5" />
+              <text x="378" y="410" class="svg-label">θ</text>
+              <g id="yasti-measure-ticks"></g>
+            </g>
+          </svg>
+
+          <div class="yasti-callout" id="yasti-callout" aria-live="polite">
+            <p class="yasti-callout-part">Staff</p>
+            <p class="yasti-callout-text">A single straight rod, set exactly vertical. Its height is known and fixed —
+              everything else is measured against it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SCIENCE / SHADOW MATH -->
+    <!-- ============================================================ -->
+    <section id="science" aria-label="The mathematics of shadow">
+      <div class="section-inner">
+        <p class="section-eyebrow">The mathematics of shadow</p>
+        <h2 class="section-title">One triangle, three things to find</h2>
+        <p class="section-lead">Height, angle and shadow length are locked together. Change one, and the others follow.
+        </p>
+
+        <div class="math-diagram">
+          <svg id="math-svg" viewBox="0 0 640 340" aria-hidden="true">
+            <line x1="60" y1="300" x2="600" y2="300" stroke="#8A6A45" stroke-width="1" opacity="0.4" />
+            <line id="math-staff" x1="220" y1="300" x2="220" y2="120" stroke="#E7D9BC" stroke-width="6"
+              stroke-linecap="round" />
+            <line id="math-shadow" x1="220" y1="300" x2="470" y2="300" stroke="#C9A15A" stroke-width="6"
+              stroke-linecap="round" />
+            <line id="math-ray" x1="220" y1="120" x2="470" y2="300" stroke="#F3B45C" stroke-width="1.5"
+              stroke-dasharray="5 5" />
+            <path id="math-angle-arc" d="M 270 300 A 50 50 0 0 1 260 275" fill="none" stroke="#F3B45C"
+              stroke-width="1.5" />
+            <text x="290" y="292" id="math-theta-label" class="svg-label">θ</text>
+            <text x="195" y="210" class="svg-label svg-label-small">height</text>
+            <text x="330" y="320" class="svg-label svg-label-small">shadow length</text>
+          </svg>
+        </div>
+
+        <div class="formula-row">
+          <p class="formula" id="formula-display">tan(<em>θ</em>) = height ÷ shadow length</p>
+          <div class="formula-live" id="formula-live" aria-live="polite">
+            <span><b id="fv-theta">45.0°</b><small>altitude</small></span>
+            <span><b id="fv-height">1.0 m</b><small>staff height</small></span>
+            <span><b id="fv-shadow">1.0 m</b><small>shadow</small></span>
+          </div>
+        </div>
+        <input type="range" id="math-slider" min="5" max="80" value="45" step="1"
+          aria-label="Sun altitude angle, drag to see the shadow change">
+
+        <div class="science-cards">
+          <article>
+            <h3>Earth turns, the Sun appears to move</h3>
+            <p>The Sun doesn't cross the sky — the Earth spins beneath it. From where you stand, that rotation looks
+              like the Sun rising, climbing, and setting, which is exactly what a shadow tracks over a day.</p>
+          </article>
+          <article>
+            <h3>Latitude and season change the angle</h3>
+            <p>How high the Sun climbs at midday depends on where you are on Earth and what time of year it is. That's
+              why the same staff, in the same place, throws a longer shadow in December than in June.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DID YOU KNOW: 2 -->
+    <aside class="dyk" data-dyk>
+      <div class="dyk-inner">
+        <p class="dyk-label">Did you know?</p>
+        <p class="dyk-fact">At local noon on the equinox, a vertical staff at the equator casts almost no shadow at all
+          — the Sun sits nearly overhead.</p>
+      </div>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- SIMULATOR -->
+    <!-- ============================================================ -->
+    <section id="simulator" aria-label="Interactive Yasti simulator">
+      <div class="section-inner">
+        <p class="section-eyebrow">Try it yourself</p>
+        <h2 class="section-title">Move the Sun</h2>
+        <p class="section-lead">This is a simplified educational model of solar position — accurate enough to teach the
+          idea, not for real navigation.</p>
+
+        <div class="sim-layout">
+          <div class="sim-stage">
+            <svg id="sim-svg" viewBox="0 0 700 500" aria-hidden="true">
+              <defs>
+                <linearGradient id="simSky" x1="0" y1="0" x2="0" y2="1">
+                  <stop id="simSkyTop" offset="0%" stop-color="#101B30" />
+                  <stop id="simSkyBot" offset="100%" stop-color="#3B4A63" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="700" height="380" fill="url(#simSky)" />
+              <g id="sim-stars"></g>
+              <!-- sun dial arc -->
+              <path d="M 60 380 A 290 290 0 0 1 640 380" fill="none" stroke="#8A6A45" stroke-width="1"
+                stroke-dasharray="2 6" opacity="0.6" />
+              <line id="sim-sun-ray" x1="350" y1="380" x2="350" y2="120" stroke="#F3B45C" stroke-width="1.2"
+                stroke-dasharray="4 5" opacity="0" />
+              <circle id="sim-sun" cx="350" cy="120" r="20" fill="#FFE8B8" />
+              <rect x="0" y="380" width="700" height="120" fill="#5A4630" />
+              <rect x="335" y="330" width="30" height="8" rx="2" fill="#3A2D1E" />
+              <line id="sim-staff" x1="350" y1="338" x2="350" y2="380" stroke="#241B10" stroke-width="8"
+                stroke-linecap="round" />
+              <line id="sim-shadow" x1="350" y1="380" x2="350" y2="380" stroke="#1A140C" stroke-width="8"
+                stroke-linecap="round" opacity="0.6" />
+              <text id="sim-below-horizon" x="350" y="440" text-anchor="middle" class="svg-label" opacity="0">Sun below
+                horizon — no shadow</text>
+            </svg>
+
+            <div class="sun-dial" id="sun-dial" role="slider" aria-label="Time of day, drag to move the Sun"
+              aria-valuemin="6" aria-valuemax="18" aria-valuenow="12" tabindex="0">
+              <div class="sun-dial-track"></div>
+              <div class="sun-dial-handle" id="sun-dial-handle"></div>
+            </div>
+          </div>
+
+          <div class="sim-controls">
+            <div class="control-group">
+              <label for="ctrl-time">Time of day — <output id="ctrl-time-out">12:00</output></label>
+              <input type="range" id="ctrl-time" min="6" max="18" value="12" step="0.25">
+            </div>
+
+            <div class="control-group">
+              <label for="ctrl-date">Date</label>
+              <input type="date" id="ctrl-date" value="2026-03-20">
+            </div>
+
+            <div class="control-group">
+              <label>Season</label>
+              <div class="season-toggle" role="group" aria-label="Season presets">
+                <button type="button" data-season="summer">Summer</button>
+                <button type="button" data-season="monsoon">Monsoon</button>
+                <button type="button" data-season="winter">Winter</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label for="ctrl-lat">Latitude — <output id="ctrl-lat-out">23.0° N</output></label>
+              <input type="range" id="ctrl-lat" min="0" max="60" value="23" step="0.5">
+            </div>
+
+            <div class="readout">
+              <div><span id="read-altitude">45.0°</span><small>Solar altitude</small></div>
+              <div><span id="read-shadow">1.0×</span><small>Shadow length</small></div>
+              <div><span id="read-direction">North</span><small>Shadow direction</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ANCIENT -> MODERN -->
+    <!-- ============================================================ -->
+    <section id="transition" aria-label="From ancient instrument to modern technology">
+      <div class="section-inner">
+        <p class="section-eyebrow">Different tools, same question</p>
+        <h2 class="section-title">What changed — and what didn't</h2>
+        <div class="transition-row">
+          <div class="transition-card">
+            <svg viewBox="0 0 80 80" width="56" aria-hidden="true">
+              <line x1="40" y1="10" x2="40" y2="65" stroke="#E7D9BC" stroke-width="4" />
+              <rect x="30" y="65" width="20" height="6" fill="#3A2D1E" />
+            </svg>
+            <p>A staff and a shadow</p>
+          </div>
+          <div class="transition-arrow" aria-hidden="true">→</div>
+          <div class="transition-card">
+            <svg viewBox="0 0 80 80" width="56" aria-hidden="true">
+              <circle cx="40" cy="40" r="14" fill="none" stroke="#E7D9BC" stroke-width="3" />
+              <line x1="10" y1="40" x2="26" y2="40" stroke="#E7D9BC" stroke-width="3" />
+              <line x1="54" y1="40" x2="70" y2="40" stroke="#E7D9BC" stroke-width="3" />
+            </svg>
+            <p>Telescopes and precise clocks</p>
+          </div>
+          <div class="transition-arrow" aria-hidden="true">→</div>
+          <div class="transition-card">
+            <svg viewBox="0 0 80 80" width="56" aria-hidden="true">
+              <rect x="20" y="30" width="40" height="20" rx="3" fill="none" stroke="#E7D9BC" stroke-width="3" />
+              <line x1="10" y1="40" x2="20" y2="40" stroke="#E7D9BC" stroke-width="3" />
+              <line x1="60" y1="40" x2="70" y2="40" stroke="#E7D9BC" stroke-width="3" />
+            </svg>
+            <p>Satellites and digital sensors</p>
+          </div>
+        </div>
+        <p class="transition-note">The Yasti Yantra isn't a primitive version of a satellite, and it isn't equivalent to
+          one either. It belongs to its own moment: a point when careful geometry and patient watching were the best
+          tools available. Different tools. The same curiosity about the sky.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- SKY MAP -->
+    <!-- ============================================================ -->
+    <section id="sky" aria-label="Interactive night sky">
+      <div class="section-inner">
+        <p class="section-eyebrow">What they watched</p>
+        <h2 class="section-title">A small patch of the night sky</h2>
+        <p class="section-lead">Select a marked star for a short note.</p>
+
+        <div class="sky-stage">
+          <svg id="sky-svg" viewBox="0 0 800 500" role="group" aria-label="Simplified night sky with selectable stars">
+            <rect x="0" y="0" width="800" height="500" fill="#070B14" />
+            <g id="sky-bg-stars"></g>
+            <g id="sky-constellations"></g>
+            <g id="sky-marked-stars"></g>
+          </svg>
+          <div class="sky-panel" id="sky-panel" aria-live="polite">
+            <p class="sky-panel-hint">Tap a star to learn more.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- TIMELINE -->
+    <!-- ============================================================ -->
+    <section id="timeline" aria-label="A brief history of shadow astronomy">
+      <div class="section-inner">
+        <p class="section-eyebrow">A brief history</p>
+        <h2 class="section-title">From a stick in the ground to the observatory</h2>
+        <p class="section-lead">The same idea — a fixed height, a moving shadow — runs through more than two thousand
+          years of Indian astronomy.</p>
+
+        <div class="timeline-track">
+          <ul class="timeline">
+            <li>
+              <span class="timeline-year">c. 1500–500 BCE</span>
+              <h3>Vedic beginnings</h3>
+              <p>Early Vedic texts already reckon time by the sun's position, laying the groundwork for shadow-based
+                observation using a simple upright rod.</p>
+            </li>
+            <li>
+              <span class="timeline-year">c. 5th century CE</span>
+              <h3>The Aryabhatiya</h3>
+              <p>Aryabhata sets astronomical calculation on a mathematical footing, describing how a vertical gnomon's
+                shadow reveals the sun's altitude — the same geometry the Yasti Yantra relies on.</p>
+            </li>
+            <li>
+              <span class="timeline-year">7th–12th century CE</span>
+              <h3>Siddhantic astronomy</h3>
+              <p>Astronomers such as Brahmagupta and Bhaskara II refine shadow mathematics in works like the
+                Brahmasphutasiddhanta and the Siddhanta Shiromani.</p>
+            </li>
+            <li>
+              <span class="timeline-year">1724–1730 CE</span>
+              <h3>The Jantar Mantar observatories</h3>
+              <p>Maharaja Jai Singh II builds monumental masonry instruments across five cities, scaling the same
+                staff-and-shadow principle up to architectural size for far greater precision.</p>
+            </li>
+            <li>
+              <span class="timeline-year">Today</span>
+              <h3>A different toolkit, the same sky</h3>
+              <p>Telescopes, clocks and satellites have replaced the staff — but the geometry it taught still underlies
+                navigation, surveying and solar tracking.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DID YOU KNOW: 3 -->
+    <aside class="dyk" data-dyk>
+      <div class="dyk-inner">
+        <p class="dyk-label">Did you know?</p>
+        <p class="dyk-fact">The Jantar Mantar in Jaipur includes a sundial roughly 27 metres tall, built to measure time
+          to within about two seconds.</p>
+      </div>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- FINAL REFLECTION -->
+    <!-- ============================================================ -->
+    <section id="reflection" aria-label="Closing">
+      <div class="section-inner reflection-inner">
+        <svg viewBox="0 0 80 80" width="44" aria-hidden="true" class="reflection-mark">
+          <circle cx="40" cy="40" r="30" fill="none" stroke="#C9A15A" stroke-width="1" />
+          <line x1="40" y1="16" x2="40" y2="64" stroke="#C9A15A" stroke-width="1" />
+        </svg>
+        <p class="reflection-text">There was no telescope. No digital clock. Just a staff, sunlight and geometry — and
+          someone willing to watch closely enough to make sense of it.</p>
+        <p class="reflection-sub">The sky hasn't changed. What we measure it with has.</p>
+      </div>
+    </section>
+
+    <footer id="site-footer">
+      <div class="footer-inner">
+        <p>Yasti Yantra — an educational project on Indian astronomical instruments.</p>
+        <p class="footer-small">Simulator values are a simplified model built for teaching, not for precise navigation
+          or research use.</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

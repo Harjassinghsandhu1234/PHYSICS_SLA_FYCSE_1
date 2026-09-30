@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Phalaka-Yantra Simulation</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Phalaka-Yantra</h1>
+        <p>Interactive 3D Simulation of Bhāskara II's Astronomical Instrument</p>
+    </header>
+
+    <main>
+
+        <section id="simulation">
+            <!-- Three.js will create the 3D model here -->
+        </section>
+
+        <aside id="controls">
+
+            <h2>Controls</h2>
+            <h3>Observation</h3>
+
+            <p>
+                Adjust the Sun's altitude to simulate
+                observing the Sun with the instrument.
+            </p>
+
+            <label for="sunAltitude">
+                Observed Sun Altitude:
+                <span id="altitudeValue">45°</span>
+            </label>
+
+            <input
+                type="range"
+                id="sunAltitude"
+                min="0"
+                max="90"
+                value="45"
+            >
+
+            <label for="armAngle">
+                Instrument Arm Reading:
+                <span id="angleValue">45°</span>
+            </label>
+
+            <input
+                type="range"
+                id="armAngle"
+                min="0"
+                max="90"
+                value="45"
+            >
+
+            <button id="resetButton">Reset</button>
+
+            <div id="measurement">
+                <h2>Current Observation</h2>
+
+                <p>
+                    Sun Altitude:
+                    <strong id="readingAltitude">45°</strong>
+                </p>
+
+                <p>
+                    Instrument Arm Reading:
+                    <strong id="readingArm">45°</strong>
+                </p>
+
+                <p id="readingDescription">
+                    The index arm is aligned with the observed
+                    altitude of the Sun.
+                </p>
+                <hr>
+
+                <h3>Calculation Parameters</h3>
+
+                <p>
+                    These values are used in the simulation to reproduce the astronomical
+                    relationship between the Sun's altitude and its hour angle.
+                    The historical Phalaka-Yantra used a graphical method rather than
+                    directly calculating the result with a modern formula.
+                </p>
+
+                <label for="latitude">
+                    Observer Latitude:
+                    <span id="latitudeValue">20°</span>
+                </label>
+
+                <input
+                    type="range"
+                    id="latitude"
+                    min="0"
+                    max="60"
+                    value="20"
+                >
+
+                <label for="declination">
+                    Sun Declination:
+                    <span id="declinationValue">0°</span>
+                </label>
+
+                <input
+                    type="range"
+                    id="declination"
+                    min="-23"
+                    max="23"
+                    value="0"
+                >
+
+                <div id="timeReading">
+
+                    <h2>Time Reading</h2>
+
+                    <p id="timeExplanation">
+                        <strong>Solar noon</strong> is the moment when
+                        the Sun reaches its highest position in the sky
+                        at a particular location. It is not necessarily
+                        exactly 12:00 on a clock.
+                    </p>
+
+                    <p>
+                        Hour Angle:
+                        <strong id="hourAngle">0°</strong>
+                    </p>
+
+                    <p>
+                        Time from Solar Noon:
+                        <strong id="solarTime">0 min</strong>
+                    </p>
+
+                    <p>
+                        Traditional Reading:
+                        <strong id="ghatiReading">0 ghaṭī</strong>
+                    </p>
+
+                    <p>
+                        <strong>Ghaṭī conversion:</strong>
+                        1 ghaṭī corresponds to 24 minutes of time.
+                    </p>
+
+                    <div id="methodExplanation">
+
+                        <h2>How the Measurement Works</h2>
+
+                        <p>
+                            <strong>1. Observe the Sun:</strong>
+                            The Sun's altitude is the angle between the
+                            horizon and the Sun.
+                        </p>
+
+                        <p>
+                            <strong>2. Align the arm:</strong>
+                            The index arm is moved so that it points toward
+                            the observed position of the Sun.
+                            Its reading represents the Sun's measured altitude.
+                        </p>
+
+                        <p>
+                            <strong>3. Find the hour angle:</strong>
+                            The measured altitude is combined with the
+                            observer's latitude and the Sun's declination
+                            to determine the Sun's hour angle.
+                        </p>
+
+                        <p>
+                            <strong>4. Relate it to solar noon:</strong>
+                            The hour angle tells us how far the Sun is
+                            from its position at local solar noon.
+                        </p>
+
+                        <p>
+                            <strong>5. Convert angle to time:</strong>
+                            The Sun appears to move about 15° across the sky
+                            per hour because of Earth's rotation. Therefore,
+                            every 15° of hour angle corresponds to about
+                            60 minutes of solar time.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h2>About the Instrument</h2>
+
+            <p>
+                The Phalaka-Yantra was an astronomical instrument
+                described by Bhāskara II.
+            </p>
+
+            <p>
+                The instrument consists of a rectangular board,
+                a central pin, a graduated circle and a movable
+                index arm.
+            </p>
+
+            <p>
+                <strong>Traditional dimensions:</strong>
+                The board is described as 180 × 90 aṅgulas,
+                with a 30-aṅgula radius graduated circle and
+                a 60-aṅgula index arm.
+            </p>
+
+            <p>
+                <strong>90 horizontal divisions:</strong>
+                The board is divided by 90 equally spaced horizontal lines,
+                representing the traditional divisions described for the instrument.
+            </p>
+
+            <p>
+                <strong>Pivot position:</strong>
+                The central pin is positioned at the middle of the 30th horizontal
+                division, as described for the traditional instrument.
+            </p>
+
+            <p>
+                <strong>Historical reconstruction:</strong>
+                This simulation is a reconstruction based on historical descriptions;
+                no original Phalaka-Yantra specimen is known to survive.
+            </p>
+
+            <div class="legend">
+                <p>🟢 Pin / Axis</p>
+                <p>🔵 Graduated Circle</p>
+                <p>🔴 Index Arm</p>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <footer>
+        <p>Drag to rotate • Scroll to zoom</p>
+    </footer>
+
+    <script type="importmap">
+        {
+            "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>

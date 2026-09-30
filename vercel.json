@@ -1,0 +1,33 @@
+{
+  "services": {
+    "group19-24": {
+      "root": "projects/group19-24",
+      "framework": "vite"
+    },
+    "group50-55": {
+      "root": "projects/group50-55",
+      "framework": "vite"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/group19-24/(.*)",
+      "destination": {
+        "service": "group19-24"
+      }
+    },
+    {
+      "source": "/group50-55/(.*)",
+      "destination": {
+        "service": "group50-55"
+      }
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/group19-24/",
+      "permanent": false
+    }
+  ]
+}

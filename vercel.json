@@ -1,13 +1,7 @@
 {
   "buildCommand": "bash build-all.sh",
   "outputDirectory": "dist",
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/group19-24/",
-      "permanent": false
-    }
-  ],
+
   "rewrites": [
     {
       "source": "/group19-24/(.*)",
